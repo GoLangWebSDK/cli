@@ -1,9 +1,9 @@
 package cli
 
 import (
-	"os"
-
+	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 type CLICmds interface {
@@ -19,7 +19,7 @@ type CLI struct {
 	Server         CLIServer
 }
 
-func NewCLI(config any) *CLI {
+func NewCLI() *CLI {
 	cli := &CLI{
 		ServiceCommand: &cobra.Command{
 			Use:   "service",
@@ -53,7 +53,7 @@ func (cli *CLI) LoadCommands(c CLICmds) {
 func (cli *CLI) Execute(server CLIServer) {
 	cli.Server = server
 	if err := cli.ServiceCommand.Execute(); err != nil {
-		// config.AppSetting.Logger.Fatal().Err(err).Msg("Failed to execute main service command")
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
